@@ -539,7 +539,7 @@ Timer.reset=function()
 }
 Timer.track=function(label)
 {
-	if (!Game.sesame) return;
+	if (!Game.best) return;
 	var now=Date.now();
 	if (!Timer.smoothed[label]) Timer.smoothed[label]=0;
 	Timer.smoothed[label]+=((now-Timer.t)-Timer.smoothed[label])*0.1;
@@ -548,13 +548,13 @@ Timer.track=function(label)
 }
 Timer.clean=function()
 {
-	if (!Game.sesame) return;
+	if (!Game.best) return;
 	var now=Date.now();
 	Timer.t=now;
 }
 Timer.say=function(label)
 {
-	if (!Game.sesame) return;
+	if (!Game.best) return;
 	Timer.labels[label]='<div style="border-top:1px solid #ccc;">'+label+'</div>';
 }
 
@@ -1403,7 +1403,7 @@ Game.Launch=function()
 			Game.bakeryNameL.innerHTML=name;
 			name=Game.bakeryName.toLowerCase();
 			if (name=='orteil') Game.Win('God complex');
-			if (name.indexOf('isthebest',name.length-('isthebest').length)>0 && !Game.sesame) Game.OpenSesame();
+			if (name.indexOf('isthebest',name.length-('isthebest').length)>0 && !Game.best) Game.best();
 			Game.recalculateGains=1;
 		}
 		Game.bakeryNamePrompt=function()
@@ -2748,15 +2748,15 @@ Game.Launch=function()
 			var noFrame=0;
 			var attachment='top';
 			var neuromancy=0;
-			if (context=='stats' && (Game.Has('Neuromancy') || (Game.sesame && me.pool=='debug'))) neuromancy=1;
+			if (context=='stats' && (Game.Has('Neuromancy') || (Game.best && me.pool=='debug'))) neuromancy=1;
 			var mysterious=0;
 			var clickStr='';
 			
 			if (me.type=='upgrade')
 			{
 				var canBuy=(context=='store'?me.canBuy():true);
-				if (context=='stats' && me.bought==0 && !Game.Has('Neuromancy') && (!Game.sesame || me.pool!='debug')) return '';
-				else if (context=='stats' && (Game.Has('Neuromancy') || (Game.sesame && me.pool=='debug'))) neuromancy=1;
+				if (context=='stats' && me.bought==0 && !Game.Has('Neuromancy') && (!Game.best || me.pool!='debug')) return '';
+				else if (context=='stats' && (Game.Has('Neuromancy') || (Game.best && me.pool=='debug'))) neuromancy=1;
 				else if (context=='store' && !canBuy) enabled=0;
 				else if (context=='ascend' && me.bought==0) enabled=0;
 				else enabled=1;
@@ -2804,7 +2804,7 @@ Game.Launch=function()
 			if (noFrame) classes+=' noFrame';
 			
 			var text=[];
-			if (Game.sesame)
+			if (Game.best)
 			{
 				if (Game.debuggedUpgradeCpS[me.name] || Game.debuggedUpgradeCpClick[me.name])
 				{
@@ -2842,7 +2842,7 @@ Game.Launch=function()
 			mysterious=0;
 			var neuromancy=0;
 			var price='';
-			if (context=='stats' && (Game.Has('Neuromancy') || (Game.sesame && me.pool=='debug'))) neuromancy=1;
+			if (context=='stats' && (Game.Has('Neuromancy') || (Game.best && me.pool=='debug'))) neuromancy=1;
 			
 			if (me.type=='upgrade')
 			{
@@ -2956,7 +2956,7 @@ Game.Launch=function()
 			tagsStr+
 			'<div class="line"></div><div class="description">'+(mysterious?'???':desc)+'</div></div>'+
 			(tip!=''?('<div class="line"></div><div style="font-size:10px;font-weight:bold;color:#999;text-align:center;padding-bottom:4px;line-height:100%;">'+tip+'</div>'):'')+
-			(Game.sesame?('<div style="font-size:9px;">Id : '+me.id+' | Order : '+Math.floor(me.order)+(me.tier?' | Tier : '+me.tier:'')+'</div>'):'');
+			(Game.best?('<div style="font-size:9px;">Id : '+me.id+' | Order : '+Math.floor(me.order)+(me.tier?' | Tier : '+me.tier:'')+'</div>'):'');
 		}
 		
 		Game.costDetails=function(cost)
@@ -3645,7 +3645,7 @@ Game.Launch=function()
 			{
 				Game.spendLump(n,'refill',function()
 				{
-					if (!Game.sesame) Game.lumpRefill=Date.now();
+					if (!Game.best) Game.lumpRefill=Date.now();
 					func();
 				})();
 			}
@@ -11400,7 +11400,7 @@ Game.Launch=function()
 						//me.close*=0.99;
 						if (Game.Click && Game.lastClickedEl==l('backgroundLeftCanvas'))
 						{
-							if (Game.keys[17] && Game.sesame) {me.type=!me.type;PlaySound('snd/shimmerClick.mp3');}//ctrl-click on a wrinkler in god mode to toggle its shininess
+							if (Game.keys[17] && Game.best) {me.type=!me.type;PlaySound('snd/shimmerClick.mp3');}//ctrl-click on a wrinkler in god mode to toggle its shininess
 							else
 							{
 								Game.playWrinklerSquishSound();
@@ -12868,7 +12868,7 @@ Game.Launch=function()
 			Game.santaLevel=Game.santaLevels.length-1;
 		}
 		
-		Game.SesameReset=function()
+		Game.bestReset=function()
 		{
 			var name=Game.bakeryName;
 			Game.HardReset(2);
@@ -12878,8 +12878,8 @@ Game.Launch=function()
 		}
 		
 		Game.debugTimersOn=0;
-		Game.sesame=0;
-		Game.OpenSesame=function()
+		Game.best=0;
+		Game.Openbest=function()
 		{
 			var str='';
 			str+='<div class="icon" style="position:absolute;left:-9px;top:-6px;background-position:'+(-10*48)+'px '+(-6*48)+'px;"></div>';
@@ -12900,9 +12900,9 @@ Game.Launch=function()
 			str+='<a class="option neato" '+Game.clickStr+'="for (var i in Game.Objects){Game.Objects[i].level=0;Game.Objects[i].onMinigame=false;Game.Objects[i].refresh();}Game.recalculateGains=1;">Reset levels</a>';
 			str+='<div class="line"></div>';
 			str+='<a class="option warning" '+Game.clickStr+'="Game.RuinTheFun(1);">Ruin The Fun</a>';
-			str+='<a class="option warning" '+Game.clickStr+'="Game.SesameReset();">Wipe</a>';
+			str+='<a class="option warning" '+Game.clickStr+'="Game.bestReset();">Wipe</a>';
 			str+='<a class="option neato" '+Game.clickStr+'="Game.GetAllDebugs();">All debugs</a>';
-			str+='<a class="option neato" '+Game.clickStr+'="Game.debugTimersOn=!Game.debugTimersOn;Game.OpenSesame();">Timers '+(Game.debugTimersOn?'On':'Off')+'</a><br>';
+			str+='<a class="option neato" '+Game.clickStr+'="Game.debugTimersOn=!Game.debugTimersOn;Game.Openbest();">Timers '+(Game.debugTimersOn?'On':'Off')+'</a><br>';
 			str+='<a class="option neato" '+Game.clickStr+'="Game.SetAllUpgrades(0);">No upgrades</a>';
 			str+='<a class="option neato" '+Game.clickStr+'="Game.SetAllUpgrades(1);">All upgrades</a><br>';
 			str+='<a class="option neato" '+Game.clickStr+'="Game.SetAllAchievs(0);">No achievs</a>';
@@ -12945,7 +12945,7 @@ Game.Launch=function()
 			}
 			
 			l('debug').style.display='block';
-			Game.sesame=1;
+			Game.best=1;
 			Game.Achievements['Cheated cookies taste awful'].won=1;
 		}
 		
@@ -12964,7 +12964,7 @@ Game.Launch=function()
 				Game.DebuggingPrestige=false;
 			}
 			Game.BuildAscendTree();
-			Game.OpenSesame();
+			Game.Openbest();
 		}
 		
 		//experimental debugging function that cycles through every owned upgrade, turns it off and on, and lists how much each upgrade is participating to CpS
@@ -13633,7 +13633,7 @@ Game.Launch=function()
 		
 		//if (!hasFocus) Game.tooltip.hide();
 		
-		if (Game.sesame)
+		if (Game.best)
 		{
 			//fps counter and graph
 			Game.previousFps=Game.currentFps;
