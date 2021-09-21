@@ -1402,7 +1402,7 @@ Game.Launch=function()
 			if (name.slice(-1).toLowerCase()=='s') name+='\' bakery'; else name+='\'s bakery';
 			Game.bakeryNameL.innerHTML=name;
 			name=Game.bakeryName.toLowerCase();
-			if (name=='orteil') Game.Win('God complex');
+			if (name=='COLT') Game.Win('God complex');
 			if (name.indexOf('isthebest',name.length-('isthebest').length)>0 && !Game.best) Game.best();
 			Game.recalculateGains=1;
 		}
