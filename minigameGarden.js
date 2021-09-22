@@ -1299,7 +1299,7 @@ M.launch=function()
 						M.harvestAll(me,1);
 						return false;
 					}
-					if (!me.plantable && !Game.best) return false;
+					if (!me.plantable && !Game.sesame) return false;
 					if (M.seedSelected==me.id){M.seedSelected=-1;}
 					else {M.seedSelected=me.id;PlaySound('snd/toneTick.mp3');}
 					for (var i in M.plants)
@@ -1666,7 +1666,7 @@ M.launch=function()
 		});
 		AddEvent(l('gardenSeedsUnlocked'),'click',function()
 		{
-			if (Game.best)
+			if (Game.sesame)
 			{
 				if (Game.keys[16] && Game.keys[17])//ctrl & shift, fill garden with random plants
 				{
