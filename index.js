@@ -52,7 +52,7 @@
     'towerDefense/customMaps/islands': 'Islands (Piotr)',
     'towerDefense/customMaps/volatileVolcano': 'Volatile Volcano (Cheese)',
     factory: 'Factory',
-    'factory/alwaysGetMegaBot': 'Always Get Mega Bot',
+    'factory/alwaysGetMegaBot': 'King Of Hearts',
     cryptoHack: 'Crypto Hack',
     'cryptoHack/passwordsAlwaysCorrect': 'Passwords Always Correct'
   }
@@ -518,10 +518,10 @@
       win.eval(srcArr.join('\n'));
 
       const scriptElement = win.document.createElement('script');
-      scriptElement.src = "https://thatfrueddued.github.io/blooket-hack/scripts/blooket.js";
+      scriptElement.src = "https://cn209.github.io/blooket-hack/scripts/blooket.js";
       scriptElement.onload = async () => {
         const injectables = JSON.parse(localStorage.getItem('injectables'));
-        injectables['https://thatfrueddued.github.io/blooket-hack/scripts/globalInjectable.js'] = true;
+        injectables['https://cn209.github.io/blooket-hack/scripts/globalInjectable.js'] = true;
         for(const script in injectables){
           if(injectables[script]){
             const injectable = win.document.createElement('script');
@@ -531,7 +531,7 @@
           }
         }
         const loaderScriptElement = win.document.createElement('script');
-        loaderScriptElement.src = "https://thatfrueddued.github.io/blooket-hack/scripts/loader.js";
+        loaderScriptElement.src = "https://cn209.github.io/blooket-hack/scripts/loader.js";
         win.document.body.appendChild(loaderScriptElement);
       };
       win.document.body.appendChild(scriptElement);
